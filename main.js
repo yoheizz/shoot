@@ -2,7 +2,7 @@
 const CANVAS_W = 400;
 const CANVAS_H = 400;
 
-const GAME_S = 1000/60;
+// const GAME_S = 1000/60;
 const BOX_M =100;
 
 // canvas系
@@ -55,11 +55,12 @@ class player{
         this.speed = 10
     };
     drow(){
-        ctx.strokeStyle = "red";
+        ctx.fillStyle = "yellowgreen";
+        ctx.fillRect(this.x,this.y,this.size,this.size);
+    
+        ctx.strokeStyle = "aqua";
         ctx.lineWidth = "5";
         ctx.strokeRect(this.x,this.y,this.size,this.size);
-        ctx.fillStyle = "white";
-        ctx.fillRect(this.x,this.y,this.size,this.size);
     }
     update(){
         const LB = document.getElementById('Left');
@@ -75,10 +76,41 @@ class player{
 
     };
 };
+
+class boss{
+    constructor(){
+        this.size = 50;
+        this.x = rand(0,CANVAS_W);
+        this.y = rand(0,CANVAS_H);
+        this.vx = 0;
+        this.vy = rand(0,4);
+    };
+    drow(){
+        ctx.fillStyle = "tomato";
+        ctx.fillRect(this.x,this.y,this.size,this.size);
+    };
+    update(){
+        if (this.x>CANVAS_W) {
+            this.x = this.x;
+        }else{
+            this.x += this.vx;
+        };
+        
+        if (this.y>CANVAS_H) {
+            this.y = 0;
+        } else {
+            this.y += this.vy;            
+        };
+    };
+};
+
+
+
 //new
 const box = [];
 for(let i=0;i<BOX_M;i++)box[i] = new Box();
-const Player = new player()
+const Player = new player();
+const Boss = new boss();
 
 
 // メイン処理
@@ -86,12 +118,14 @@ const loop=()=> {
     // 移動
     for(let i=0;i<BOX_M;i++)box[i].update(); 
     Player.update();
+    Boss.update();
    
     //固定
     ctx.fillStyle = "black";
     ctx.fillRect(0,0,CANVAS_W,CANVAS_H);
     for(let i=0;i<BOX_M;i++)box[i].drow();
     Player.drow();
+    Boss.drow();
 
     requestAnimationFrame(loop);
 };
