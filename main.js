@@ -15,7 +15,7 @@ canvas.height = CANVAS_H;
 // 関数関係
 const rand=(min,max)=>{
     return Math.floor(Math.random()*(max-min+1)+min);
-}
+};
 
 // クラス関係
 class Box{
@@ -48,10 +48,11 @@ class Box{
 class player{
     constructor(){
         this.size = 20;
-        this.x = CANVAS_W/2;
+        this.x = CANVAS_W/2 - this.size/2;
         this.y = CANVAS_H - this.size*2;
-        this.vx = 4;
+        this.vx = 0.04;
         this.vy = 0;
+        this.speed = 10
     };
     drow(){
         ctx.strokeStyle = "red";
@@ -61,20 +62,19 @@ class player{
         ctx.fillRect(this.x,this.y,this.size,this.size);
     }
     update(){
-        if (this.x>CANVAS_W) {
-            this.x = 0;
-        }else{
-            this.x += this.vx;
-        };
-        
-        if (this.y>CANVAS_H) {
-            this.y = 0;
-        } else {
-            this.y += this.vy;            
-        };
-    };
-}
+        const LB = document.getElementById('Left');
+        const RB = document.getElementById('Right');
 
+        LB.addEventListener('mousedown', () => {
+            Player.x -= Player.vx;
+        });
+
+        RB.addEventListener('mousedown', () => {
+            Player.x += Player.vx;
+        });
+
+    };
+};
 //new
 const box = [];
 for(let i=0;i<BOX_M;i++)box[i] = new Box();
@@ -92,9 +92,12 @@ const loop=()=> {
     ctx.fillRect(0,0,CANVAS_W,CANVAS_H);
     for(let i=0;i<BOX_M;i++)box[i].drow();
     Player.drow();
+
+    requestAnimationFrame(loop);
 };
 
 //関数呼び出し
 window.onload=()=>{
-    setInterval(loop,GAME_S);
+    // setInterval(loop,GAME_S);
+    requestAnimationFrame(loop);
 };
