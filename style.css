@@ -1,6 +1,29 @@
 body{
     text-align: center;
 }
-canvas{
-    border:  solid 2px yellow;
+
+.canvas-container{
+    /* position: relative; */
+    /* overflow: hidden; */
+    /* padding-top: 100%; */
 }
+
+.canvas{
+      /* position: absolute; */
+      /* top: 0; */
+      /* left:0; */
+      width: 100%;
+      height: 100%;
+      max-width: 400px;
+      max-height: 400px;
+  }
+
+  .button-group{
+    padding: 10px;
+  }
+  
+  button{
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10%;
+  }
